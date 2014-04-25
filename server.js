@@ -8,6 +8,7 @@ var http = require('http');
 
 var host = "localhost";
 var port = 3030;
+
 if (process.env.hasOwnProperty("VCAP_SERVICES")) {
 	// Running on BlueMix. Parse out the port and host that we've been assigned.
 	var env = JSON.parse(process.env.VCAP_SERVICES);
