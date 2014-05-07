@@ -16,6 +16,16 @@ function changeScore(s) {
 	$("#score").text("Score: " + score);
 }
 
+/**
+ * Save a new score in the DB. Then show all hiscores.
+ */
+function saveScore(name, score, date) {
+	$.get("/save_score?name=" + name + "&score=" + score, function() {
+		// Go to hiscore page
+		window.location.replace("/");
+	});
+}
+
 function changePower(p) {
 	power += p;
 	if (power > 100) {
@@ -31,7 +41,7 @@ function changePower(p) {
 		okButton.on('click', function (e) {
 			dlg.modal("hide");
 			var name = dlg.find("#name-input")[0].value;
-			// TODO: Save name and score in DB
+			saveScore(name, score, new Date());
 		});
 		dlg.modal("show");
 	}	
