@@ -36,8 +36,7 @@
 	margin: 0 auto;
 }
 
-.word-area table,tr,td
-{
+.word-area table,tr,td {
 	border:1px solid yellow;
 }
 
