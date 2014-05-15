@@ -1,4 +1,4 @@
-#header {
+.game-text {
 	color:white;
 }
 
@@ -60,4 +60,8 @@
 
 .wrong-letter {
 	background-color: red;
+}
+
+.modal, .modal.fade.in {
+    top: 30%;
 }

@@ -19,7 +19,7 @@ html(lang="en")
             button(type="button", class="btn btn-ok") OK
 
     div(class="container")
-      h1(id="header") Guess the secret word!
+      h1(class="game-text") Guess the secret word!
       div(class="row")
         div(class="col-xs-8")
           div(id="word-description")        
@@ -35,8 +35,7 @@ html(lang="en")
           div(id="power") Power:            
       div(class="row")
         div(class="col-xs-8")
-          div(style="padding-top:30px;")
-            button(id="guess-button" class="btn btn-primary", style="display: none") Take a guess!          
+          div(id="help-text", class="game-text") Click on a ?-box above and type a letter          
         div(class="col-xs-4")
           div(class="row")
             div(class="col-xs-12")
