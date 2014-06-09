@@ -48,7 +48,7 @@ function wordLookup(word, cb_description) {
 	  var wordList = JSON.parse(str);
 	  cb_description(wordList.length > 0 ? wordList[0].text : "");
 	});
-      }).end();	
+      }).end();
 }
 
 app.get('/randomword', function(request, response) {
