@@ -22,6 +22,8 @@ if (process.env.hasOwnProperty("VCAP_SERVICES")) {
   var port = process.env.VCAP_APP_PORT;
 
   // Also parse out MongoDB settings.
+  console.log('VCAP_SERVICES: %s', process.env.VCAP_SERVICES);    
+
   var mongoSettings = env['mongodb-2.2'][0].credentials;
 }
 var mongoURL = mongoSettings.url + '?connectTimeoutMS=5000&socketTimeoutMS=30000';
