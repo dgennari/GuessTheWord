@@ -5,30 +5,31 @@
 var express = require('express');
 var app = express();
 var http = require('http');
-var mongojs = require('mongojs');
 
 var host = "localhost";
 var port = 3030;
-var mongoSettings = {
-    "username" : "user1",
-    "password" : "secret",
-    "url" : "mongodb://user1:secret@localhost:27017/test"
+var cloudant = {
+		username : "<username>", // TODO: Update
+		password : "<password>", // TODO: Update
+		url : "https://<username>.cloudant.com" // TODO: Update
 };
 
+
 if (process.env.hasOwnProperty("VCAP_SERVICES")) {
-  // Running on BlueMix. Parse out the port and host that we've been assigned.
+  // Running on Bluemix. Parse out the port and host that we've been assigned.
   var env = JSON.parse(process.env.VCAP_SERVICES);
   var host = process.env.VCAP_APP_HOST; 
   var port = process.env.VCAP_APP_PORT;
 
-  // Also parse out MongoDB settings.
   console.log('VCAP_SERVICES: %s', process.env.VCAP_SERVICES);    
 
-  var mongoSettings = env['mongodb-2.2'][1].credentials;
+  // Also parse out Cloudant settings.
+  cloudant = env['user-provided'][0].credentials;  
 }
-var mongoURL = mongoSettings.url + '?connectTimeoutMS=5000&socketTimeoutMS=30000';
 
-var db;
+var nano = require('nano')('https://' + cloudant.username + ':' + cloudant.password + '@' + cloudant.url.substring(8));
+var db = nano.db.use('guess_the_word_hiscores');
+
 
 /**
  * Lookup the word in the wordnik online dictionary and return a description for it.
@@ -101,11 +102,15 @@ app.get('/play', function(req, res){
   res.render('main.jade', {title: 'Guess the Word'});
 });
 
-app.get('/hiscores', function(request, response) {	
-  db.scores.find({}).sort({'score':1}).limit(10, function(err, docs) {
-    if (err) throw err;
-    if (docs)
-      response.send(JSON.stringify(docs));
+app.get('/hiscores', function(request, response) {
+  db.view('top_scores', 'top_scores_index', function(err, body) {
+  if (!err) {
+    var scores = [];
+      body.rows.forEach(function(doc) {
+        scores.push(doc.value);		      
+      });
+      response.send(JSON.stringify(scores));
+	}
   });
 });
 
@@ -114,20 +119,15 @@ app.get('/save_score', function(request, response) {
   var score = request.query.score;
 
   var scoreRecord = { 'name': name, 'score' : parseInt(score), 'date': new Date() };
-  db.scores.insert(scoreRecord, function(err) {
-    if (err) { 
-      console.log(err.stack); 
-    }
-    else {
+  db.insert(scoreRecord, function(err, body, header) {
+    if (!err) {       
       response.send('Successfully added one score to the DB');
     }
   });
 });
 
 var server = app.listen(port, function() {
-  console.log('Server running on port %d on host %s', server.address().port, host);    
-
-  db = mongojs(mongoURL, ['scores']);
+  console.log('Server running on port %d on host %s', server.address().port, host);
 });
 
 process.on('exit', function() {
