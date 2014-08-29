@@ -22,7 +22,7 @@ if (process.env.hasOwnProperty("VCAP_SERVICES")) {
   console.log('VCAP_SERVICES: %s', process.env.VCAP_SERVICES);    
 
   // Also parse out Cloudant settings.
-  cloudant = env['CloudantNoSQLDB'][0].credentials;  
+  cloudant = env['cloudantNoSQLDB'][0].credentials;  
 }
 
 var nano = require('nano')(cloudant.url);
