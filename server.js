@@ -9,9 +9,7 @@ var http = require('http');
 var host = "localhost";
 var port = 3030;
 var cloudant = {
-		username : "<username>", // TODO: Update
-		password : "<password>", // TODO: Update
-		url : "https://<username>.cloudant.com" // TODO: Update
+		 		 url : "https://f5452bb8-7d86-4198-9fa1-76a9d0a55727-bluemix:6130b19398e8fd33feaab49df054638945906fc47fe22bb25b8035a4eee31d6e@f5452bb8-7d86-4198-9fa1-76a9d0a55727-bluemix.cloudant.com" // TODO: Update		 		 
 };
 
 
@@ -24,10 +22,10 @@ if (process.env.hasOwnProperty("VCAP_SERVICES")) {
   console.log('VCAP_SERVICES: %s', process.env.VCAP_SERVICES);    
 
   // Also parse out Cloudant settings.
-  cloudant = env['user-provided'][0].credentials;  
+  cloudant = env['CloudantNoSQLDB'][0].credentials;  
 }
 
-var nano = require('nano')('https://' + cloudant.username + ':' + cloudant.password + '@' + cloudant.url.substring(8));
+var nano = require('nano')(cloudant.url);
 var db = nano.db.use('guess_the_word_hiscores');
 
 
