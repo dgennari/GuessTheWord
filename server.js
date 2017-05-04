@@ -9,7 +9,7 @@ var http = require('http');
 var host = "localhost";
 var port = 3030;
 var cloudant = {
-		 		 url : "https://f5452bb8-7d86-4198-9fa1-76a9d0a55727-bluemix:6130b19398e8fd33feaab49df054638945906fc47fe22bb25b8035a4eee31d6e@f5452bb8-7d86-4198-9fa1-76a9d0a55727-bluemix.cloudant.com" // TODO: Update		 		 
+		 		 url : "https://ameneseratiffirfarpeards:5f77eb950854c9897a40b5f3f007dd7a33f9b495@c45795fb-1672-43e1-a454-633b7319f1a9-bluemix.cloudant.com/" // TODO: Update		 		 
 };
 
 
@@ -39,7 +39,7 @@ function wordLookup(word, cb_description) {
   http.request(
       {
 	host: "api.wordnik.com",
-	path: "/v4/word.json/" + word + "/definitions?limit=1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+	path: "/v4/word.json/" + word + "/definitions?limit=1&api_key=c1c16b14126296c318ae69f43b1ec3fa6854f06e"
       },	function (res) {
 	var str = '';
 	res.on('data', function(d) {
@@ -56,7 +56,7 @@ app.get('/randomword', function(request, response) {
   http.request(
       {
 	host: "api.wordnik.com",
-	path: "/v4/words.json/randomWord?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+	path: "/v4/words.json/randomWord?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=c1c16b14126296c318ae69f43b1ec3fa6854f06e"
       }, function (res) {
 	var str = '';
 	res.on('data', function(d) {
